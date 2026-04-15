@@ -1,0 +1,14 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[http]
+	extraheader = Authorization: Basic OmdldmRuZjd5ejV4YnJqY3R1cTNuZXlubGc2dmlkbmV0MmhuaXUzd3BpemtuenNnM2I2YnE=
+[remote "origin"]
+	url = https://devops.flightio.com/Flightio/Flightio/_git/PersianReactDate
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+	vscode-merge-base = origin/master
