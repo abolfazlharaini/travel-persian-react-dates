@@ -14,6 +14,8 @@ import CalendarInfoPositionShape from './CalendarInfoPositionShape';
 import NavPositionShape from './NavPositionShape';
 
 export default {
+  rootClassName: PropTypes.string,
+
   // required props for a functional interactive SingleDatePicker
   date: momentPropTypes.momentObj,
   onDateChange: PropTypes.func.isRequired,
