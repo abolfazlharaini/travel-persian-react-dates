@@ -42,6 +42,8 @@ const propTypes = forbidExtraProps({
 });
 
 const defaultProps = {
+  rootClassName: null,
+  
   // required props for a functional interactive SingleDatePicker
   date: null,
   focused: false,
@@ -461,31 +463,40 @@ class SingleDatePicker extends React.PureComponent {
 
     const withAnyPortal = withPortal || withFullScreenPortal;
 
+    let cssCompiled = css(
+      styles.SingleDatePicker_picker,
+      anchorDirection === ANCHOR_LEFT && styles.SingleDatePicker_picker__directionLeft,
+      anchorDirection === ANCHOR_RIGHT && styles.SingleDatePicker_picker__directionRight,
+      openDirection === OPEN_DOWN && styles.SingleDatePicker_picker__openDown,
+      openDirection === OPEN_UP && styles.SingleDatePicker_picker__openUp,
+      !withAnyPortal && openDirection === OPEN_DOWN && {
+        top: inputHeight + verticalSpacing,
+      },
+      !withAnyPortal && openDirection === OPEN_UP && {
+        bottom: inputHeight + verticalSpacing,
+      },
+      orientation === HORIZONTAL_ORIENTATION && styles.SingleDatePicker_picker__horizontal,
+      orientation === VERTICAL_ORIENTATION && styles.SingleDatePicker_picker__vertical,
+      withAnyPortal && styles.SingleDatePicker_picker__portal,
+      withFullScreenPortal && styles.SingleDatePicker_picker__fullScreenPortal,
+      isRTL && styles.SingleDatePicker_picker__rtl,
+      isRTL === false && styles.DateRangePicker_picker__ltr,
+      dayPickerContainerStyles,
+    );
+
+    if (rootClassName) {
+      if (cssCompiled?.className)
+        cssCompiled.className += ` ${rootClassName}`;
+      else
+        cssCompiled['className'] = rootClassName;
+    }
+
     /* eslint-disable jsx-a11y/no-static-element-interactions */
     /* eslint-disable jsx-a11y/click-events-have-key-events */
     return (
       <div
         ref={this.setDayPickerContainerRef}
-        {...css(
-          styles.SingleDatePicker_picker,
-          anchorDirection === ANCHOR_LEFT && styles.SingleDatePicker_picker__directionLeft,
-          anchorDirection === ANCHOR_RIGHT && styles.SingleDatePicker_picker__directionRight,
-          openDirection === OPEN_DOWN && styles.SingleDatePicker_picker__openDown,
-          openDirection === OPEN_UP && styles.SingleDatePicker_picker__openUp,
-          !withAnyPortal && openDirection === OPEN_DOWN && {
-            top: inputHeight + verticalSpacing,
-          },
-          !withAnyPortal && openDirection === OPEN_UP && {
-            bottom: inputHeight + verticalSpacing,
-          },
-          orientation === HORIZONTAL_ORIENTATION && styles.SingleDatePicker_picker__horizontal,
-          orientation === VERTICAL_ORIENTATION && styles.SingleDatePicker_picker__vertical,
-          withAnyPortal && styles.SingleDatePicker_picker__portal,
-          withFullScreenPortal && styles.SingleDatePicker_picker__fullScreenPortal,
-          isRTL && styles.SingleDatePicker_picker__rtl,
-          isRTL === false && styles.DateRangePicker_picker__ltr,
-          dayPickerContainerStyles,
-        )}
+        {...cssCompiled}
         onClick={onOutsideClick}
       >
         <DayPickerSingleDateController
